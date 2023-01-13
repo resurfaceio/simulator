@@ -11,12 +11,12 @@ and sends these to a remote Resurface database. This command-line utility works 
 
 Download executable jar:
 ```
-wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/resurfaceio-ndjson-faker/3.5.1/resurfaceio-ndjson-faker-3.5.1.jar
+wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/resurfaceio-ndjson-faker/3.5.2/resurfaceio-ndjson-faker-3.5.2.jar
 ```
 
 Run from command line:
 ```
-java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSATURATED_STOP=no -Xmx512M -jar resurfaceio-ndjson-faker-3.5.1.jar
+java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSATURATED_STOP=no -Xmx512M -jar resurfaceio-ndjson-faker-3.5.2.jar
 ```
 
 ## Available Workloads
@@ -55,7 +55,7 @@ If you want to call this utility from your own Java application, add these secti
 <dependency>
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-ndjson-faker</artifactId>
-    <version>3.5.1</version>
+    <version>3.5.2</version>
 </dependency>
 ```
 
