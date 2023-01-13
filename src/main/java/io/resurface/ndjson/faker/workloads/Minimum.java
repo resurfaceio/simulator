@@ -2,7 +2,7 @@
 
 package io.resurface.ndjson.faker.workloads;
 
-import io.resurface.messages.HttpMessage;
+import io.resurface.ndjson.HttpMessage;
 import io.resurface.ndjson.faker.Workload;
 
 import java.util.List;

@@ -4,7 +4,7 @@ package io.resurface.ndjson.faker.workloads;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
-import io.resurface.messages.HttpMessage;
+import io.resurface.ndjson.HttpMessage;
 import io.resurface.ndjson.faker.Workload;
 
 import java.util.List;
