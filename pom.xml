@@ -6,7 +6,7 @@
 
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-ndjson-faker</artifactId>
-    <version>3.5.2</version>
+    <version>3.5.3</version>
     <name>resurfaceio-ndjson-faker</name>
     <description>Fake NDJSON generation utility</description>
     <url>https://github.com/resurfaceio/ndjson-faker</url>
