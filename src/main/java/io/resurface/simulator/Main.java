@@ -47,11 +47,13 @@ public class Main {
         System.out.println("URL=" + url);
         parsed_url = new URL(url);
 
-        // read limit options
+        // read runtime options
         limit_messages = Long.parseLong(System.getProperty("LIMIT_MESSAGES", "0"));
         System.out.println("LIMIT_MESSAGES=" + limit_messages);
         limit_millis = Long.parseLong(System.getProperty("LIMIT_MILLIS", "0"));
         System.out.println("LIMIT_MILLIS=" + limit_millis);
+        int sleep_per_batch = Integer.parseInt(System.getProperty("SLEEP_PER_BATCH", "0"));
+        System.out.println("SLEEP_PER_BATCH=" + sleep_per_batch);
 
         // create workload
         String workload_name = System.getProperty("WORKLOAD", "Coinbroker");
@@ -71,6 +73,7 @@ public class Main {
             } else if (size > MIN_BATCH_SIZE) {
                 batch_queue.put(new ArrayList<>(batch));
                 batch.clear();
+                if (sleep_per_batch > 0) Thread.sleep(sleep_per_batch);
             }
         }
 

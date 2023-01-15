@@ -16,7 +16,7 @@ wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/res
 
 Run from command line:
 ```
-java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -Xmx512M -jar resurfaceio-simulator-3.5.2.jar
+java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.5.2.jar
 ```
 
 ## Available Workloads
@@ -34,6 +34,7 @@ PORT: network port for remote database
 
 LIMIT_MESSAGES: default is '0' (unlimited), quit after this many messages
 LIMIT_MILLIS: default is '0' (unlimited), quit after this many milliseconds
+SLEEP_PER_BATCH: default is '0' (none), pause in millis between batches
 URL: override HOST and PORT with custom URL for remote database
 ```
 
