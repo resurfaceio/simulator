@@ -1,8 +1,9 @@
 // © 2016-2023 Resurface Labs Inc.
 
-package io.resurface.ndjson.faker;
+package io.resurface.simulator;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +26,7 @@ public class Main {
     }
 
     /**
-     * Generates fake NDJSON messages until stopped or saturated.
+     * Generates simulated NDJSON messages until stopped or terminated.
      */
     public Main() throws Exception {
         // calculate destination url if not provided
@@ -52,24 +53,14 @@ public class Main {
         limit_millis = Long.parseLong(System.getProperty("LIMIT_MILLIS", "0"));
         System.out.println("LIMIT_MILLIS=" + limit_millis);
 
-        // read saturation options & start detector thread
-        String saturated_stop = System.getProperty("SATURATED_STOP", "no");
-        System.out.println("SATURATED_STOP=" + saturated_stop);
-        if ("yes".equalsIgnoreCase(saturated_stop)) {
-            saturated_url = new URL(url.substring(0, url.lastIndexOf("/")) + "/saturated");
-            System.out.println("SATURATED_URL=" + saturated_url);
-            if (saturated()) System.exit(0);
-            new Thread(new SaturationDetector()).start();
-        }
-
         // create workload
         String workload_name = System.getProperty("WORKLOAD", "Coinbroker");
-        Workload workload = (Workload) Class.forName("io.resurface.ndjson.faker.workloads." + workload_name).getConstructor().newInstance();
+        Workload workload = (Workload) Class.forName("io.resurface.simulator.workloads." + workload_name).getConstructor().newInstance();
 
         // create thread to send batches asynchronously
         new Thread(new BatchSender()).start();
 
-        // send messages until faker wants to stop
+        // send messages until workload is finished
         List<String> batch = new ArrayList<>(MIN_BATCH_SIZE);
         while (true) {
             int size_before = batch.size();
@@ -107,7 +98,7 @@ public class Main {
                     c.setRequestMethod("POST");
                     c.setRequestProperty("Content-Encoding", "deflated");
                     c.setRequestProperty("Content-Type", "application/ndjson; charset=UTF-8");
-                    c.setRequestProperty("User-Agent", "Resurface/v3.5.x (ndjson-faker)");
+                    c.setRequestProperty("User-Agent", "Resurface/v3.5.x (simulator)");
                     c.setDoOutput(true);
                     try (OutputStream os = c.getOutputStream()) {
                         try (DeflaterOutputStream dos = new DeflaterOutputStream(os, true)) {
@@ -141,42 +132,6 @@ public class Main {
     }
 
     /**
-     * Makes remote call to ask if database is saturated.
-     */
-    private boolean saturated() throws IOException {
-        HttpURLConnection c = (HttpURLConnection) saturated_url.openConnection();
-        c.setConnectTimeout(5000);
-        c.setReadTimeout(5000);
-        c.setRequestMethod("GET");
-        try (InputStream is = c.getInputStream()) {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-                return "true".equals(br.readLine());
-            }
-        }
-    }
-
-    /**
-     * Worker thread that detects database saturation.
-     */
-    class SaturationDetector implements Runnable {
-
-        public void run() {
-            try {
-                boolean saturated = false;
-                while (!saturated) {
-                    Thread.sleep(1000);
-                    saturated = saturated();
-                    if (saturated) batch_queue.put(POISON_BATCH);
-                }
-            } catch (RuntimeException | IOException | InterruptedException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
-        }
-
-    }
-
-    /**
      * Print status summary.
      */
     private void status() {
@@ -194,7 +149,6 @@ public class Main {
     private final long limit_millis;
     private long messages_written;
     private final URL parsed_url;
-    private URL saturated_url;
     private final long started = System.currentTimeMillis();
 
     private static final int MIN_BATCH_SIZE = 32;

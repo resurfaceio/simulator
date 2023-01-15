@@ -1,4 +1,4 @@
-# Contributing to resurfaceio-ndjson-faker
+# Contributing to resurfaceio-simulator
 &copy; 2016-2023 Resurface Labs Inc.
 
 ## Coding Conventions
@@ -11,8 +11,8 @@ If you don't use IDEA, that's ok, but your code may get reformatted.
 Initial setup:
 
 ```
-git clone git@github.com:resurfaceio/ndjson-faker.git resurfaceio-ndjson-faker
-cd resurfaceio-ndjson-faker
+git clone git@github.com:resurfaceio/simulator.git resurfaceio-simulator
+cd resurfaceio-simulator
 ```
 
 Test and package:

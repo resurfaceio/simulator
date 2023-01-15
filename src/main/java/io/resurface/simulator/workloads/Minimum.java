@@ -1,9 +1,9 @@
 // © 2016-2023 Resurface Labs Inc.
 
-package io.resurface.ndjson.faker.workloads;
+package io.resurface.simulator.workloads;
 
 import io.resurface.ndjson.HttpMessage;
-import io.resurface.ndjson.faker.Workload;
+import io.resurface.simulator.Workload;
 
 import java.util.List;
 

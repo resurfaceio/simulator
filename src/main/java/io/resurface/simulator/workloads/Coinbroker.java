@@ -1,11 +1,11 @@
 // © 2016-2023 Resurface Labs Inc.
 
-package io.resurface.ndjson.faker.workloads;
+package io.resurface.simulator.workloads;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
-import io.resurface.ndjson.faker.Workload;
+import io.resurface.simulator.Workload;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class Coinbroker implements Workload {
         batch.add(finish(m, request_body, response_body, use_graphql));
 
         // write one or more quote messages
-        String quote_token = "<unknown>";  // todo flag as failure?
+        String quote_token = faker.internet().uuid();
         int quotes = (int) (Math.random() * 6);
         for (int i = 0; i < quotes; i++) {
             int amount = get_random();

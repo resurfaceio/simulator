@@ -1,18 +1,18 @@
 // © 2016-2023 Resurface Labs Inc.
 
-package io.resurface.ndjson.faker.workloads;
+package io.resurface.simulator.workloads;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
-import io.resurface.ndjson.faker.Workload;
+import io.resurface.simulator.Workload;
 
 import java.util.List;
 
 /**
- * Generates small randomized REST messages.
+ * Generates large randomized REST messages.
  */
-public class RestSmall implements Workload {
+public class RestLarge implements Workload {
 
     /**
      * Adds a single message to the batch without any stop conditions.

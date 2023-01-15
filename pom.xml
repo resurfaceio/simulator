@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.resurface</groupId>
-    <artifactId>resurfaceio-ndjson-faker</artifactId>
-    <version>3.5.3</version>
-    <name>resurfaceio-ndjson-faker</name>
-    <description>Fake NDJSON generation utility</description>
-    <url>https://github.com/resurfaceio/ndjson-faker</url>
+    <artifactId>resurfaceio-simulator</artifactId>
+    <version>3.5.2</version>
+    <name>resurfaceio-simulator</name>
+    <description>Simulate API calls and import into Resurface database</description>
+    <url>https://github.com/resurfaceio/simulator</url>
 
     <build>
         <plugins>
@@ -43,7 +43,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>io.resurface.ndjson.faker.Main</mainClass>
+                            <mainClass>io.resurface.simulator.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -123,7 +123,7 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/resurfaceio/ndjson/faker/issues</url>
+        <url>https://github.com/resurfaceio/simulator/issues</url>
     </issueManagement>
 
     <licenses>
@@ -155,9 +155,9 @@
     </repositories>
 
     <scm>
-        <connection>scm:git:git@github.com:resurfaceio/ndjson-faker.git</connection>
-        <developerConnection>scm:git:git@github.com:resurfaceio/ndjson-faker.git</developerConnection>
-        <url>scm:git:git@github.com:resurfaceio/ndjson-faker.git</url>
+        <connection>scm:git:git@github.com:resurfaceio/simulator.git</connection>
+        <developerConnection>scm:git:git@github.com:resurfaceio/simulator.git</developerConnection>
+        <url>scm:git:git@github.com:resurfaceio/simulator.git</url>
     </scm>
 
 </project>

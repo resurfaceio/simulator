@@ -1,6 +1,6 @@
 // © 2016-2023 Resurface Labs Inc.
 
-package io.resurface.ndjson.faker;
+package io.resurface.simulator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
