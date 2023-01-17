@@ -5,6 +5,7 @@ package io.resurface.simulator.workloads;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
+import io.resurface.simulator.Clock;
 import io.resurface.simulator.Workload;
 
 import java.time.LocalDateTime;
@@ -19,14 +20,14 @@ public abstract class RestAbstract implements Workload {
     /**
      * Adds a single message to the batch without any stop conditions.
      */
-    public void add_to(List<String> batch) throws Exception {
-        batch.add(build().toString());
+    public void add(List<String> batch, Clock clock) throws Exception {
+        batch.add(build(clock).toString());
     }
 
     /**
      * Builds and returns a random REST message.
      */
-    HttpMessage build() throws Exception {
+    HttpMessage build(Clock clock) throws Exception {
         HttpMessage m = new HttpMessage();
 
         // add request details
@@ -39,6 +40,7 @@ public abstract class RestAbstract implements Workload {
         m.set_response_body(MAPPER.writeValueAsString(get_response_body()));
         m.set_response_code("200");
         m.set_response_content_type(CONTENT_TYPE_JSON);
+        m.set_response_time_millis(clock.now());
 
         // add request headers
         int chance = get_random();

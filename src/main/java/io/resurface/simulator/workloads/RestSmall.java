@@ -54,8 +54,8 @@ public class RestSmall extends RestAbstract {
         ObjectNode b = MAPPER.createObjectNode();
         b.put("receipt_id", faker.internet().uuid());
         b.put("invoice_number", faker.internet().uuid());
-        b.put("recovery_key", faker.color().toString() + ":" + faker.beer().toString() + ":" + faker.lebowski().character().toString());
-        b.put("special_instructions", faker.lorem().paragraph(2));
+        b.put("recovery_key", faker.color().name() + ":" + faker.beer().name() + ":" + faker.lebowski().character() + ":" + faker.space().galaxy());
+        b.put("special_instructions", faker.lorem().paragraph(4));
         b.put("payment_total", faker.numerify("###.##"));
         b.put("payment_tax", faker.numerify("##.##"));
         b.put("contract_filename", faker.file().fileName());

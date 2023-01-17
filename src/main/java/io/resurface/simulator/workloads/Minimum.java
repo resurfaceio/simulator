@@ -3,6 +3,7 @@
 package io.resurface.simulator.workloads;
 
 import io.resurface.ndjson.HttpMessage;
+import io.resurface.simulator.Clock;
 import io.resurface.simulator.Workload;
 
 import java.util.List;
@@ -13,23 +14,15 @@ import java.util.List;
 public class Minimum implements Workload {
 
     /**
-     * Create static message to use each time.
+     * Adds a single message to the batch without any stop conditions.
      */
-    public Minimum() {
+    public void add(List<String> batch, Clock clock) throws Exception {
         HttpMessage m = new HttpMessage();
         m.set_request_method("GET");
         m.set_request_url("http://myurl");
         m.set_response_code("200");
-        cached = m.toString();
-    }
-
-    private final String cached;
-
-    /**
-     * Adds a single message to the batch without any stop conditions.
-     */
-    public void add_to(List<String> batch) throws Exception {
-        batch.add(cached);
+        m.set_response_time_millis(clock.now());
+        batch.add(m.toString());
     }
 
 }

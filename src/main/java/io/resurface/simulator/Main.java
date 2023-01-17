@@ -48,12 +48,20 @@ public class Main {
         parsed_url = new URL(url);
 
         // read runtime options
+        int clock_skew_days = Integer.parseInt(System.getProperty("CLOCK_SKEW_DAYS", "0"));
+        System.out.println("CLOCK_SKEW_DAYS=" + clock_skew_days);
         limit_messages = Long.parseLong(System.getProperty("LIMIT_MESSAGES", "0"));
         System.out.println("LIMIT_MESSAGES=" + limit_messages);
         limit_millis = Long.parseLong(System.getProperty("LIMIT_MILLIS", "0"));
         System.out.println("LIMIT_MILLIS=" + limit_millis);
         int sleep_per_batch = Integer.parseInt(System.getProperty("SLEEP_PER_BATCH", "0"));
         System.out.println("SLEEP_PER_BATCH=" + sleep_per_batch);
+
+        // validate runtime options
+        if (clock_skew_days > 0 && sleep_per_batch > 0) {
+            System.out.println("CLOCK_SKEW_DAYS and SLEEP_PER_BATCH are exclusive options, please use one or the other 😀");
+            System.exit(-1);
+        }
 
         // create workload
         String workload_name = System.getProperty("WORKLOAD", "Coinbroker");
@@ -62,11 +70,15 @@ public class Main {
         // create thread to send batches asynchronously
         new Thread(new BatchSender()).start();
 
+        // create simulation clock
+        clock = new Clock(clock_skew_days);
+        new Thread(clock).start();
+
         // send messages until workload is finished
         List<String> batch = new ArrayList<>(MIN_BATCH_SIZE);
         while (true) {
             int size_before = batch.size();
-            workload.add_to(batch);
+            workload.add(batch, clock);
             int size = batch.size();
             if (size == size_before) {
                 break;
@@ -138,16 +150,19 @@ public class Main {
      * Print status summary.
      */
     private void status() {
-        long elapsed = System.currentTimeMillis() - started;
+        long now = System.currentTimeMillis();
+        long elapsed = now - started;
         long rate = (messages_written * 1000 / elapsed);
         System.out.println("Messages: " + messages_written + ", Elapsed time: " + elapsed + " ms, Rate: " + rate + " msg/sec");
 
         // exit if limits reached
+        if (clock.now() > now + 5000) System.exit(0);
         if ((limit_messages > 0) && (messages_written > limit_messages)) System.exit(0);
         if ((limit_millis > 0) && (elapsed > limit_millis)) System.exit(0);
     }
 
     private final BlockingQueue<List<String>> batch_queue = new ArrayBlockingQueue<>(256);
+    private final Clock clock;
     private final long limit_messages;
     private final long limit_millis;
     private long messages_written;

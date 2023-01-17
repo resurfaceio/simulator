@@ -15,7 +15,7 @@ public interface Workload {
     /**
      * Adds one or more messages to the batch, or leaves the batch unchanged to stop.
      */
-    void add_to(List<String> batch) throws Exception;
+    void add(List<String> batch, Clock clock) throws Exception;
 
     /**
      * JSON content type header.

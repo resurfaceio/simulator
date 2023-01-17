@@ -5,6 +5,7 @@ package io.resurface.simulator.workloads;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
+import io.resurface.simulator.Clock;
 import io.resurface.simulator.Workload;
 
 import java.util.List;
@@ -17,13 +18,14 @@ public class Coinbroker implements Workload {
     /**
      * Adds a single message to the batch without any stop conditions.
      */
-    public void add_to(List<String> batch) throws Exception {
+    public void add(List<String> batch, Clock clock) throws Exception {
         String account_token = faker.internet().uuid();
         String coin_type = get_coin_type();
         String first_name = faker.name().firstName();
         String last_name = faker.name().lastName();
         String email = faker.internet().emailAddress();
         boolean use_graphql = (Math.random() * 100) > 70;
+        long now = clock.now();
 
         // start session
         HttpMessage m = new HttpMessage();
@@ -56,6 +58,7 @@ public class Coinbroker implements Workload {
             request_body.put("email", email);
             response_body.put("account_token", account_token);
         }
+        m.set_response_time_millis(++now);
         batch.add(finish(m, request_body, response_body, use_graphql));
 
         // write one or more quote messages
@@ -96,6 +99,7 @@ public class Coinbroker implements Workload {
                 response_body.put("quote_token", quote_token);
                 response_body.put("valid_until", System.currentTimeMillis() + 7200000);
             }
+            m.set_response_time_millis(++now);
             batch.add(finish(m, request_body, response_body, use_graphql));
         }
 
@@ -122,6 +126,7 @@ public class Coinbroker implements Workload {
             response_body.put("quote_token", quote_token);
             response_body.put("time_processed", System.currentTimeMillis());
         }
+        m.set_response_time_millis(++now);
         batch.add(finish(m, request_body, response_body, use_graphql));
     }
 
