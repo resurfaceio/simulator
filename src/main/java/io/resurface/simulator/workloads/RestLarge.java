@@ -3,39 +3,26 @@
 package io.resurface.simulator.workloads;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.javafaker.Faker;
-import io.resurface.ndjson.HttpMessage;
-import io.resurface.simulator.Workload;
-
-import java.util.List;
 
 /**
  * Generates large randomized REST messages.
  */
-public class RestLarge implements Workload {
+public class RestLarge extends RestSmall {
 
-    /**
-     * Adds a single message to the batch without any stop conditions.
-     */
-    public void add_to(List<String> batch) throws Exception {
-        String user_token = faker.internet().uuid();
-
-        HttpMessage m = new HttpMessage();
-        m.set_request_method("GET");
-        m.set_request_url(String.format("http://myapi.resurface.io/quotes/%s/", user_token));
-        // todo add request body
-        // todo add request headers
-        ObjectNode response_body = MAPPER.createObjectNode();
-        response_body.put("user_token", user_token);
-        response_body.put("random_text", faker.lorem().paragraph(80));
-        m.set_response_body(MAPPER.writeValueAsString(response_body));
-        m.set_response_code("200");
-        m.set_response_content_type(CONTENT_TYPE_JSON);
-        // todo additional response headers
-
-        batch.add(m.toString());
+    @Override
+    ObjectNode get_request_body() throws Exception {
+        ObjectNode b = super.get_request_body();
+        b.put("api_token", faker.random().hex(512));
+        b.put("public_key", faker.random().hex(2048));
+        return b;
     }
 
-    private final Faker faker = new Faker();
+    @Override
+    ObjectNode get_response_body() throws Exception {
+        ObjectNode b = super.get_response_body();
+        b.put("one_time_key", faker.random().hex(2048));
+        b.put("contract_plaintext", faker.lorem().paragraph(35));
+        return b;
+    }
 
 }

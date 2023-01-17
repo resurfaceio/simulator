@@ -19,12 +19,6 @@ Run from command line:
 java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.5.2.jar
 ```
 
-## Available Workloads
-
-* **Coinbroker** - (default) REST and GraphQL calls with injected failures and attacks
-* **Minimum** - empty calls with method, url and response code only
-* **RestLarge** - REST calls with randomized url path, headers, and JSON bodies (?KB/call average)
-
 ## Environment Variables
 
 ```
@@ -37,6 +31,13 @@ LIMIT_MILLIS: default is '0' (unlimited), quit after this many milliseconds
 SLEEP_PER_BATCH: default is '0' (none), pause in millis between batches
 URL: override HOST and PORT with custom URL for remote database
 ```
+
+## Available Workloads
+
+* **Minimum** - empty calls with method, url and response code only (12 byte/call)
+* **Coinbroker** (default) - REST and GraphQL calls with injected failures and attacks (500 byte/call average)
+* **RestSmall** - REST calls with randomized url path, headers, and JSON bodies (2 KB/call average)
+* **RestLarge** - REST calls with randomized url path, headers, and JSON bodies (8 KB/call average)
 
 ## Dependencies
 
