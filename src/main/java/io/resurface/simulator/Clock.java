@@ -10,7 +10,7 @@ public class Clock implements Runnable {
      */
     public Clock(long skew_days) {
         this.now = System.currentTimeMillis() - (skew_days * 24 * 60 * 60 * 1000);
-        this.virtual_tick = (skew_days == 0) ? TICK : TICK * skew_days;
+        this.virtual_tick = TICK * (skew_days + 1);
     }
 
     /**
