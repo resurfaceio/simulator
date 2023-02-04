@@ -11,12 +11,12 @@ and sends these to a remote Resurface database. This command-line utility works 
 
 Download executable jar:
 ```
-wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/resurfaceio-simulator/3.5.5/resurfaceio-simulator-3.5.5.jar
+wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/resurfaceio-simulator/3.5.6/resurfaceio-simulator-3.5.6.jar
 ```
 
 Run from command line:
 ```
-java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.5.5.jar
+java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.5.6.jar
 ```
 
 ## Environment Variables
@@ -57,7 +57,7 @@ If you want to call this utility from your own Java application, add these secti
 <dependency>
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-simulator</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.6</version>
 </dependency>
 ```
 
