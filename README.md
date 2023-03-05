@@ -37,8 +37,8 @@ URL: override HOST and PORT with custom URL for remote database
 
 * **Minimum** - empty calls with method, url and response code only (12 byte/call)
 * **Coinbroker** (default) - REST and GraphQL calls with injected failures and attacks (500 byte/call average)
-* **RestSmall** - REST calls with randomized url path, headers, and JSON bodies (2 KB/call average)
-* **RestLarge** - REST calls with randomized url path, headers, and JSON bodies (8 KB/call average)
+* **RestSmall2** - REST calls with randomized url path, headers, and JSON bodies (2 KB/call average)
+* **RestLarge2** - REST calls with randomized url path, headers, and JSON bodies (8 KB/call average)
 
 ## Dependencies
 

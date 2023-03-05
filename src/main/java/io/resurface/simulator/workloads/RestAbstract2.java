@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Generates randomized REST messages.
  */
-public abstract class RestAbstract implements Workload {
+public abstract class RestAbstract2 implements Workload {
 
     /**
      * Adds a single message to the batch without any stop conditions.
@@ -30,13 +30,23 @@ public abstract class RestAbstract implements Workload {
     HttpMessage build(Clock clock) throws Exception {
         HttpMessage m = new HttpMessage();
 
+        // update session-level fields
+        if ((session_index < 0) || (++session_index > 4)) {
+            session_request_address = faker.internet().ipV4Address();
+            session_user_agent = faker.internet().userAgentAny();
+            session_index = 0;
+        }
+
         // add request details
+        m.set_request_address(session_request_address);
         m.set_request_body(MAPPER.writeValueAsString(get_request_body()));
         m.set_request_content_type(CONTENT_TYPE_JSON);
-        m.set_request_method("GET");
+        m.set_request_method(get_random() < 75 ? "GET" : "POST");
         m.set_request_url(String.format("http://myapi.resurface.io/quotes/%s/", faker.internet().uuid()));
+        m.set_request_user_agent(session_user_agent);
 
         // add response details
+        m.set_interval_millis(get_random_interval());
         m.set_response_body(MAPPER.writeValueAsString(get_response_body()));
         m.set_response_code("200");
         m.set_response_content_type(CONTENT_TYPE_JSON);
@@ -64,7 +74,7 @@ public abstract class RestAbstract implements Workload {
      * Adds specified number of request headers to the message.
      */
     void build_request_headers(HttpMessage message, int count) {
-        message.add_request_header("X-Forwarded-Host", faker.internet().ipV4Address());
+        message.add_request_header("Session-Index", String.valueOf(session_index));
         message.add_request_header("X-Request-ID", faker.internet().uuid());
         if (count == 2) return;
         message.add_request_header("X-Forwarded-Scheme", "http");
@@ -106,7 +116,21 @@ public abstract class RestAbstract implements Workload {
         return (int) (Math.random() * 100);
     }
 
+    /**
+     * Returns random interval.
+     */
+    private int get_random_interval() {
+        if (get_random() < 5) {
+            return (int) (Math.random() * 30000);
+        } else {
+            return (int) (Math.random() * 4000);
+        }
+    }
+
     final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     final Faker faker = new Faker();
+    int session_index = -1;
+    String session_request_address;
+    String session_user_agent;
 
 }

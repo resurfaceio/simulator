@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * Generates small randomized REST messages.
  */
-public class RestSmall extends RestAbstract {
+public class RestSmall2 extends RestAbstract2 {
 
     @Override
     ObjectNode get_request_body() throws Exception {
