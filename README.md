@@ -4,6 +4,7 @@ Simulate API calls and import into Resurface database
 This open source Java utility generates simulated API calls (in [NDJSON format](https://resurface.io/json.html))
 and sends these to a remote Resurface database. This command-line utility works with Resurface databases on Docker or Kubernetes.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/simulator/badge)](https://www.codefactor.io/repository/github/resurfaceio/simulator)
 [![License](https://img.shields.io/github/license/resurfaceio/simulator)](https://github.com/resurfaceio/simulator/blob/v3.5.x/LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/simulator/blob/v3.5.x/CONTRIBUTING.md)
 
