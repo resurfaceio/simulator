@@ -12,7 +12,7 @@ and sends these to a remote Resurface database. This command-line utility works 
 
 Download executable jar:
 ```
-wget https://dl.cloudsmith.io/public/resurfacelabs/public/maven/io/resurface/resurfaceio-simulator/3.5.7/resurfaceio-simulator-3.5.7.jar
+wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resurfaceio-simulator/3.5.7/resurfaceio-simulator-3.5.7.jar
 ```
 
 Run from command line:
@@ -65,8 +65,8 @@ If you want to call this utility from your own Java application, add these secti
 ```xml
 <repositories>
     <repository>
-        <id>resurfacelabs-public</id>
-        <url>https://dl.cloudsmith.io/public/resurfacelabs/public/maven/</url>
+        <id>resurfaceio-public</id>
+        <url>https://dl.cloudsmith.io/public/resurfaceio/public/maven/</url>
         <releases>
             <enabled>true</enabled>
             <updatePolicy>always</updatePolicy>
