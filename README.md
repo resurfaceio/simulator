@@ -76,4 +76,4 @@ If you want to call this utility from your own Java application, add these secti
 ```
 
 ---
-<small>&copy; 2016-2023 <a href="https://resurface.io">Resurface Labs Inc.</a></small>
+<small>&copy; 2016-2023 <a href="https://resurface.io">Graylog, Inc.</a></small>
