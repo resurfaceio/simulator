@@ -113,7 +113,7 @@ public class Main {
                     c.setRequestMethod("POST");
                     c.setRequestProperty("Content-Encoding", "deflated");
                     c.setRequestProperty("Content-Type", "application/ndjson; charset=UTF-8");
-                    c.setRequestProperty("User-Agent", "Resurface/v3.5.x (simulator)");
+                    c.setRequestProperty("User-Agent", "Resurface/v3.6.x (simulator)");
                     c.setDoOutput(true);
                     try (OutputStream os = c.getOutputStream()) {
                         try (DeflaterOutputStream dos = new DeflaterOutputStream(os, true)) {

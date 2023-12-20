@@ -6,7 +6,7 @@
 
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-simulator</artifactId>
-    <version>3.5.8</version>
+    <version>3.6.1</version>
     <name>resurfaceio-simulator</name>
     <description>Simulate API calls and import into Resurface database</description>
     <url>https://github.com/resurfaceio/simulator</url>
