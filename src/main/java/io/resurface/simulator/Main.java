@@ -2,11 +2,15 @@
 
 package io.resurface.simulator;
 
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -75,14 +79,16 @@ public class Main {
         new Thread(clock).start();
 
         // send messages until workload is finished
-        List<String> batch = new ArrayList<>(MIN_BATCH_SIZE);
+        final int BATCH_SIZE = Integer.parseInt(System.getProperty("BATCH_SIZE", "128"));
+        System.out.println("BATCH_SIZE=" + BATCH_SIZE);
+        List<String> batch = new ArrayList<>(BATCH_SIZE);
         while (true) {
             int size_before = batch.size();
             workload.add(batch, clock);
             int size = batch.size();
             if (size == size_before) {
                 break;
-            } else if (size > MIN_BATCH_SIZE) {
+            } else if (size > BATCH_SIZE) {
                 batch_queue.put(new ArrayList<>(batch));
                 batch.clear();
                 if (sleep_per_batch > 0) Thread.sleep(sleep_per_batch);
@@ -107,9 +113,7 @@ public class Main {
                     if (b == POISON_BATCH) System.exit(0);
 
                     // make request to database
-                    HttpURLConnection c = (HttpURLConnection) parsed_url.openConnection();
-                    c.setConnectTimeout(5000);
-                    c.setReadTimeout(5000);
+                    HttpURLConnection c = trustedConnection(parsed_url);
                     c.setRequestMethod("POST");
                     c.setRequestProperty("Content-Encoding", "deflated");
                     c.setRequestProperty("Content-Type", "application/ndjson; charset=UTF-8");
@@ -169,7 +173,42 @@ public class Main {
     private final URL parsed_url;
     private final long started = System.currentTimeMillis();
 
-    private static final int MIN_BATCH_SIZE = 32;
     private static final List<String> POISON_BATCH = new ArrayList<>();
+
+    private static HostnameVerifier TRUST_ALL_HOSTS = (hostname, session) -> true;
+
+    private static TrustManager[] TRUST_ALL_CERTS = new TrustManager[]{new X509TrustManager() {
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
+    }};
+
+    private static HttpURLConnection trustedConnection(URL url) throws IOException {
+        if (url.getProtocol().equalsIgnoreCase("https")) {
+            HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
+            c.setConnectTimeout(5000);
+            c.setReadTimeout(5000);
+            c.setHostnameVerifier(TRUST_ALL_HOSTS);
+            try {
+                SSLContext sc = SSLContext.getInstance("TLS");
+                sc.init(null, TRUST_ALL_CERTS, new java.security.SecureRandom());
+                c.setSSLSocketFactory(sc.getSocketFactory());
+            } catch (KeyManagementException | NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+            return c;
+        } else {
+            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+            c.setConnectTimeout(5000);
+            c.setReadTimeout(5000);
+            return c;
+        }
+    }
 
 }
