@@ -25,7 +25,7 @@ java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=443 -DBATCH_SIZE=128 -DCLOCK_
 ```
 WORKLOAD: workload implementation class
 HOST: machine name for remote database
-PORT: network port for remote database
+PORT: network port for remote database (80 or 443 for Kubernetes, 7701 for Docker)
 
 BATCH_SIZE: default is '128', messages sent in a single POST
 CLOCK_SKEW_DAYS: default is '0' (none), rewind virtual clock & advance faster
