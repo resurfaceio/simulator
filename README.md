@@ -20,7 +20,7 @@ Run from command line:
 java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=443 -DBATCH_SIZE=128 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.6.1.jar
 ```
 
-## Environment Variables
+## Parameters
 
 ```
 WORKLOAD: workload implementation class
