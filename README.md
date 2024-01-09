@@ -2,7 +2,7 @@
 Simulate API calls and import into Resurface database
 
 This open source Java utility generates simulated API calls (in [NDJSON format](https://resurface.io/json.html))
-and sends these to a remote Resurface database. This command-line utility works with Resurface databases on Docker or Kubernetes.
+and sends these to a remote Resurface database. This command-line utility works with Resurface databases on Kubernetes or Docker.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/simulator/badge)](https://www.codefactor.io/repository/github/resurfaceio/simulator)
 [![License](https://img.shields.io/github/license/resurfaceio/simulator)](https://github.com/resurfaceio/simulator/blob/v3.6.x/LICENSE)
@@ -17,7 +17,7 @@ wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resur
 
 Run from command line:
 ```
-java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=7701 -DBATCH_SIZE=128 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.6.1.jar
+java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=443 -DBATCH_SIZE=128 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.6.1.jar
 ```
 
 ## Environment Variables
@@ -77,4 +77,4 @@ If you want to call this utility from your own Java application, add these secti
 ```
 
 ---
-<small>&copy; 2016-2023 <a href="https://resurface.io">Graylog, Inc.</a></small>
+<small>&copy; 2016-2024 <a href="https://resurface.io">Graylog, Inc.</a></small>
