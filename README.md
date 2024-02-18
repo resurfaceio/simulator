@@ -15,9 +15,14 @@ Download executable jar:
 wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resurfaceio-simulator/3.6.1/resurfaceio-simulator-3.6.1.jar
 ```
 
-Run from command line:
+Run with default dialect:
 ```
 java -DWORKLOAD=Coinbroker -DHOST=localhost -DPORT=443 -DBATCH_SIZE=128 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.6.1.jar
+```
+
+Run with API Connect dialect:
+```
+java -DDIALECT=ibm -DWORKLOAD=RestSmall2 -DHOST=localhost -DPORT=443 -DBATCH_SIZE=128 -DCLOCK_SKEW_DAYS=0 -DLIMIT_MESSAGES=0 -DLIMIT_MILLIS=0 -DSLEEP_PER_BATCH=0 -Xmx512M -jar resurfaceio-simulator-3.6.1.jar
 ```
 
 ## Parameters
@@ -28,6 +33,7 @@ HOST: machine name for remote database
 PORT: network port for remote database (80 or 443 for Kubernetes, 7701 for Docker)
 
 BATCH_SIZE: default is '128', messages sent in a single POST
+DIALECT: default is 'default' (Resurface format), set to 'ibm' for API Connect
 CLOCK_SKEW_DAYS: default is '0' (none), rewind virtual clock & advance faster
 LIMIT_MESSAGES: default is '0' (unlimited), quit after this many messages
 LIMIT_MILLIS: default is '0' (unlimited), quit after this many milliseconds

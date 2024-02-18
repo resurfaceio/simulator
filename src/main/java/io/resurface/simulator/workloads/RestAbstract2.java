@@ -5,6 +5,7 @@ package io.resurface.simulator.workloads;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
+import io.resurface.ndjson.HttpMessages;
 import io.resurface.simulator.Clock;
 import io.resurface.simulator.Workload;
 
@@ -20,8 +21,8 @@ public abstract class RestAbstract2 implements Workload {
     /**
      * Adds a single message to the batch without any stop conditions.
      */
-    public void add(List<String> batch, Clock clock) throws Exception {
-        batch.add(build(clock).toString());
+    public void add(List<String> batch, Clock clock, String dialect) throws Exception {
+        batch.add(HttpMessages.format(build(clock), dialect));
     }
 
     /**

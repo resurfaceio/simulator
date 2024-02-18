@@ -5,6 +5,7 @@ package io.resurface.simulator.workloads;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.javafaker.Faker;
 import io.resurface.ndjson.HttpMessage;
+import io.resurface.ndjson.HttpMessages;
 import io.resurface.simulator.Clock;
 import io.resurface.simulator.Workload;
 
@@ -18,7 +19,7 @@ public class Coinbroker implements Workload {
     /**
      * Adds a single message to the batch without any stop conditions.
      */
-    public void add(List<String> batch, Clock clock) throws Exception {
+    public void add(List<String> batch, Clock clock, String dialect) throws Exception {
         String account_token = faker.internet().uuid();
         String coin_type = get_coin_type();
         String first_name = faker.name().firstName();
@@ -59,7 +60,7 @@ public class Coinbroker implements Workload {
             response_body.put("account_token", account_token);
         }
         m.set_response_time_millis(++now);
-        batch.add(finish(m, request_body, response_body, use_graphql));
+        batch.add(finish(m, request_body, response_body, use_graphql, dialect));
 
         // write one or more quote messages
         String quote_token = faker.internet().uuid();
@@ -100,7 +101,7 @@ public class Coinbroker implements Workload {
                 response_body.put("valid_until", System.currentTimeMillis() + 7200000);
             }
             m.set_response_time_millis(++now);
-            batch.add(finish(m, request_body, response_body, use_graphql));
+            batch.add(finish(m, request_body, response_body, use_graphql, dialect));
         }
 
         // write order message
@@ -127,13 +128,13 @@ public class Coinbroker implements Workload {
             response_body.put("time_processed", System.currentTimeMillis());
         }
         m.set_response_time_millis(++now);
-        batch.add(finish(m, request_body, response_body, use_graphql));
+        batch.add(finish(m, request_body, response_body, use_graphql, dialect));
     }
 
     /**
      * Finishes message and returns as a string.
      */
-    private String finish(HttpMessage m, ObjectNode request_body, ObjectNode response_body, boolean use_graphql) throws Exception {
+    private String finish(HttpMessage m, ObjectNode request_body, ObjectNode response_body, boolean use_graphql, String dialect) throws Exception {
         // todo add runtime failure
         // todo add attack
         m.set_host(get_host());
@@ -141,7 +142,7 @@ public class Coinbroker implements Workload {
         m.set_request_body(MAPPER.writeValueAsString(request_body));
         m.set_response_body(MAPPER.writeValueAsString(response_body));
         m.add_response_header("ETag", "\"" + faker.internet().uuid() + "\"");
-        return m.toString();
+        return HttpMessages.format(m, dialect);
     }
 
     /**

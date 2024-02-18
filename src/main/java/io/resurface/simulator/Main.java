@@ -33,6 +33,9 @@ public class Main {
      * Generates simulated NDJSON messages until stopped or terminated.
      */
     public Main() throws Exception {
+        String dialect = System.getProperty("DIALECT", "default");
+        System.out.println("DIALECT=" + dialect);
+
         // calculate destination url if not provided
         String url = System.getProperty("URL");
         if (url == null) {
@@ -47,6 +50,7 @@ public class Main {
             } else {
                 url = "http://" + host + ":" + port + "/message";
             }
+            url += (dialect.equals("default") ? "" : "/" + dialect);
         }
         System.out.println("URL=" + url);
         parsed_url = new URL(url);
@@ -84,7 +88,7 @@ public class Main {
         List<String> batch = new ArrayList<>(BATCH_SIZE);
         while (true) {
             int size_before = batch.size();
-            workload.add(batch, clock);
+            workload.add(batch, clock, dialect);
             int size = batch.size();
             if (size == size_before) {
                 break;
