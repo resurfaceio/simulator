@@ -33,8 +33,8 @@ HOST: machine name for remote database
 PORT: network port for remote database (80 or 443 for Kubernetes, 7701 for Docker)
 
 BATCH_SIZE: default is '128', messages sent in a single POST
-DIALECT: default is 'default' (Resurface format), set to 'ibm' for API Connect
 CLOCK_SKEW_DAYS: default is '0' (none), rewind virtual clock & advance faster
+DIALECT: default is 'default' (Resurface format), set to 'ibm' for API Connect
 LIMIT_MESSAGES: default is '0' (unlimited), quit after this many messages
 LIMIT_MILLIS: default is '0' (unlimited), quit after this many milliseconds
 SLEEP_PER_BATCH: default is '0' (none), pause in millis between batches
