@@ -36,6 +36,12 @@ Check if any newer dependencies are available:
 mvn versions:display-dependency-updates
 ```
 
+Scan for security vulnerabilities:
+
+```
+trivy fs .
+```
+
 ## Release Process
 
 Push this new version to CloudSmith:
