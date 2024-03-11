@@ -179,9 +179,9 @@ public class Main {
 
     private static final List<String> POISON_BATCH = new ArrayList<>();
 
-    private static HostnameVerifier TRUST_ALL_HOSTS = (hostname, session) -> true;
+    private static final HostnameVerifier TRUST_ALL_HOSTS = (hostname, session) -> true;
 
-    private static TrustManager[] TRUST_ALL_CERTS = new TrustManager[]{new X509TrustManager() {
+    private static final TrustManager[] TRUST_ALL_CERTS = new TrustManager[]{new X509TrustManager() {
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }

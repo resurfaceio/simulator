@@ -137,7 +137,6 @@ public class Coinbroker implements Workload {
     private String finish(HttpMessage m, ObjectNode request_body, ObjectNode response_body, boolean use_graphql, String dialect) throws Exception {
         // todo add runtime failure
         // todo add attack
-        m.set_host(get_host());
         m.set_interval_millis(get_interval());
         m.set_request_body(MAPPER.writeValueAsString(request_body));
         m.set_response_body(MAPPER.writeValueAsString(response_body));
@@ -154,22 +153,6 @@ public class Coinbroker implements Workload {
             return "BTC";
         } else {
             return "LTC";
-        }
-    }
-
-    /**
-     * Returns randomized host name.
-     */
-    private String get_host() {
-        int rand = get_random();
-        if (rand < 50) {
-            return "api01";
-        } else if (rand < 75) {
-            return "api02";
-        } else if (rand < 90) {
-            return "api03";
-        } else {
-            return "api04";
         }
     }
 
